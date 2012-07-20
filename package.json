@@ -1,0 +1,14 @@
+{
+  "name": "tire-animation",
+  "version": "0.1.0",
+  "author": "Fredrik Forsmo <fredrik.forsmo@gmail.com>",
+  "description": "",
+  "homepage": "https://github.com/frozzare/tire-animation",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/frozzare/tire-animation.git"
+  },
+  "dependencies" : {},
+  "devDependencies": {},
+  "license": "MIT"
+}

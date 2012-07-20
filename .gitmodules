@@ -1,0 +1,3 @@
+[submodule "tire"]
+	path = tire
+	url = git@github.com:Frozzare/tire.git
