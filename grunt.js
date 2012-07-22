@@ -4,7 +4,7 @@ module.exports = function(grunt) {
     pkg: '<json:package.json>',
     concat: {
       dist: {
-        src: ['tire/dist/tire.js', 'src/header.js', 'src/base.js', 'src/footer.js'],
+        src: ['src/header.js', 'src/base.js', 'src/fx/easing.js', 'src/fx/color.js', 'src/fx/animate.js', 'src/footer.js'],
         dest: 'dist/tire.js'
       }
     },
@@ -12,10 +12,10 @@ module.exports = function(grunt) {
       "dist/tire.min.js": ["dist/tire.js"]
     },
     lint: {
-      files: ['src/header.js', 'src/base.js', 'src/footer.js']
+      files: ['dist/tire.js']
     },
     watch: {
-      files: '<config:lint.files>',
+      files: '<config:dist.files>',
       tasks: 'lint'
     },
     jshint: {
@@ -45,14 +45,9 @@ module.exports = function(grunt) {
   
   grunt.registerMultiTask('concat', 'Fix indent for files', function () {
     var src = ''
-      , dest = this.file.dest
-      , banner = grunt.task.directive(this.file.src[0], function() { return null; });
-  
-    src += banner;
-    
-    this.file.src.shift();
+      , dest = this.file.dest;
       
-    grunt.file.expandFiles(this.file.src).forEach(function (file) {
+    grunt.file.expandFiles(this.file.src).forEach(function (file) {      
       if (file.indexOf('header') !== -1 || file.indexOf('footer') !== -1) {
         src += grunt.file.read(file) + '\n';
       } else {

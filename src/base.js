@@ -1,8 +1,29 @@
-var animate = {}
-  , easing = {}
-  , vendors = ['o', 'ms', 'webkit', 'moz']
-  , CSSTransitions = {};
+// requestAnimationFrame polyfill by Erik Möller, fixes from Paul Irish and Tino Zijdel
+// http://paulirish.com/2011/requestanimationframe-for-smart-animating/
+// http://my.opera.com/emoller/blog/2011/12/20/requestanimationframe-for-smart-er-animating
+(function() {
+  var lastTime = 0
+    , vendors = ['o', 'ms', 'webkit', 'moz'];
+    
+  for(var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
+    window.requestAnimationFrame = window[vendors[x]+'RequestAnimationFrame'];
+    window.cancelAnimationFrame = window[vendors[x]+'CancelRequestAnimationFrame'];
+  }
 
-tire.fn.extend({
-  animate: function () {}  
-});
+  if (!window.requestAnimationFrame) {
+    window.requestAnimationFrame = function(callback, element) {
+      var currTime = new Date().getTime()
+        , timeToCall = Math.max(0, 16 - (currTime - lastTime))
+        , id = window.setTimeout(function() { callback(currTime + timeToCall); }, timeToCall);
+        
+      lastTime = currTime + timeToCall;
+      return id;
+    };
+  }
+  
+  if (!window.cancelAnimationFrame) {
+    window.cancelAnimationFrame = function(id) {
+      clearTimeout(id);
+    };
+  }
+}());

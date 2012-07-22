@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html debug="true">
+<head>
+  <title>tire test</title>
+  <meta charset="utf-8">
+  <!--<script type="text/javascript" src="https://getfirebug.com/firebug-lite.js"></script>-->
+  <style type="text/css">
+    .box {
+      width: 50px;
+      height: 50px;
+      background: #7597ff;
+    }
+  </style>
+</head>
+<body>
+  <a href="#" class="p1">Both 1</a>
+  <a href="#" class="p2">Both 2</a>
+  <a href="#" class="p3">Both 3</a>
+  <a href="#" class="p4">Both 4</a>
+  <hr />
+  <div class="box box1"></div>
+  <a href="#" data-pix="100" class="animate1 1a">Animate left (100px)</a>
+  <a href="#" data-pix="120" class="animate1 1b">Animate 20px more</a>
+  <a href="#" data-pix="100" class="animate1 1c">Animate 20px less</a>
+  <a href="#" data-pix="0" class="animate1 1d">Animate right (0px)</a>
+  <hr />
+  <div class="box box2"></div>
+  <a href="#" data-pix="130" class="animate2 2a">Animate left (130px)</a>
+  <a href="#" data-pix="190" class="animate2 2b">Animate 60px more</a>
+  <a href="#" data-pix="100" class="animate2 2c">Animate 30px less</a>
+  <a href="#" data-pix="0" class="animate2 2d">Animate right (0px)</a>
+  <hr />
+  <a href="#" class="color">Animate color</a>
+  <script src="../dist/tire.js"></script>
+  <script>
+    var colors = ['#EEA2AD', '#CDC1C5', '#FF69B4', '#CD69C9', '#3A5FCD', '#BCD2EE', '#33A1C9', '#9ACD32'];
+    $(function () {
+      $('.p1').on('click', function () {
+        $('.1a').trigger('click');
+        $('.2a').trigger('click');
+      });
+      $('.p2').on('click', function () {
+        $('.1b').trigger('click');
+        $('.2b').trigger('click');
+      });
+      $('.p3').on('click', function () {
+        $('.1c').trigger('click');
+        $('.2c').trigger('click');
+      });
+      $('.p4').on('click', function () {
+        $('.1d').trigger('click');
+        $('.2d').trigger('click');
+      });
+      $('.animate1').on('click', function () {
+        $('.box1').animate({
+          'marginLeft': $(this).attr('data-pix') + 'px'
+        }, 'slow', 'easeInBounce');
+      });
+      $('.animate2').on('click', function () {
+        $('.box2').animate({
+          'marginLeft': $(this).attr('data-pix') + 'px'
+        }, 'slow', 'easeInBounce');
+      });
+      $('.color').on('click', function () {
+        $('.box').animate({
+          'backgroundColor': '#'+Math.floor(Math.random()*16777215).toString(16)
+        });
+      }, 'slow');
+    });
+  </script>
+</body>
+</html>
