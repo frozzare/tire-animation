@@ -34,6 +34,13 @@ var stringParsers = [{
   }
 ]; 
 
+/**
+ * Parse color value
+ *
+ * @param {String} value
+ * @return {Array}
+ */
+
 function Color (value) {
   var val
     , i;
@@ -54,9 +61,24 @@ function Color (value) {
   return val;
 }
 
+/**
+ * Check if the value is a color string
+ *
+ * @param {String} value
+ * @return {Boolean}
+ */
+
 function isColor (value) {
   return /(#[a-f|A-F|0-9]|rgb)/.test(value);
 }
+
+/**
+ * Transform color rgb value
+ *
+ * @param {Float|Integer} current The current value
+ * @param {Float|Integer} target The target value
+ * @param {Float|Integer} eas Value from easing function
+ */
 
 function colorTransform (source, target, eas) {
   var res = []
@@ -72,6 +94,13 @@ function colorTransform (source, target, eas) {
   
   return 'rgb(' + res.join(',') + ')';
 }
+
+/**
+ * Parse color value
+ *
+ * @param {Object} prop The property object
+ * @return {Object}
+ */
 
 function parseColorValue (prop) {
   return { value: new Color(prop.value), current: new Color(prop.current), transform: colorTransform };

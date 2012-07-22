@@ -1,16 +1,31 @@
-var opacityType = (typeof document.body.style.opacity !== 'undefined') ? 'opacity' : 'filter'
-  , durations = {
+var durations = {
       'slow': 600,
       'fast': 200,
       'normal': 400
     };
+    
+/**
+ * Parse numerical value
+ * "12px" => { value: 12, unit: 'px', ... }
+ *
+ * 
+ * @param {Object} prop The property object
+ * @return {Object}
+ */
 
 function parseNumericalValue (prop) {
   var num = (tire.isStr(prop.value)) ? parseFloat(prop.value) : prop.value
     , unit = (tire.isStr(prop.value)) ? prop.value.replace(num, '') : 'px'; 
-  return { value: num, unit: unit, sta: num, current: parseFloat(prop.current), transform: numericalTransform };
+  return { value: num, unit: unit, current: parseFloat(prop.current), transform: numericalTransform };
 }
- 
+
+/**
+ * Parse CSS property value
+ *
+ * @param {Object} prop The property object
+ * @return {Object}
+ */
+
 function parsePropertyValue (prop) {
   if (isColor(prop.value)) {
     return parseColorValue(prop);
@@ -19,17 +34,45 @@ function parsePropertyValue (prop) {
   }
 }
 
+/**
+ * Transform element with easing, current position, duration and property object
+ *
+ * @param {String} easing
+ * @param {Float|Integer} position
+ * @param {Integer} duration
+ * @param {Object} prop
+ * @return {Float|Integer}
+ */
+
 function transform (easing, position, duration, prop) {
   var val = parsePropertyValue(prop)
     , eas = easings[easing](duration * position, 0, 1, duration);
   return val.transform(val.current, val.value, eas) + (val.unit || '');
 }
+
+/**
+ * Transform numerical value
+ *
+ * @param {Float|Integer} current The current value
+ * @param {Float|Integer} target The target value
+ * @param {Float|Integer} eas Value from easing function
+ */
  
 function numericalTransform (current, target, eas) {         
   return (current+(target-current)*eas).toFixed(3);
 }
 
 tire.fn.extend({
+  
+  /**
+   * Animation using CSS
+   * 
+   * @param {Object} prop CSS properties
+   * @param {Float|Integer} duration Animation time
+   * @param {String} easing The easing name
+   * @param {Function} callback (Not supported yet)
+   */
+  
   animate: function (prop, duration, easing, callback) {
     if (tire.isFun(duration)) callback = duration;
     if (tire.isFun(easing)) callback = easing;
@@ -62,10 +105,26 @@ tire.fn.extend({
     interval = requestAnimationFrame(loop);
   },
   
+  /**
+   * Fade in element
+   *
+   * @param {Float|Integer} duration Animation time
+   * @param {String} easing The easing name
+   * @param {Function} callback (Not supported yet)
+   */
+   
   fadeIn: function (duration, easing, callback) {
     return this.animate({ from: 0.0, to: 1.0 }, duration, easing, callback);
   },
-  
+
+  /**
+   * Fade out element
+   *
+   * @param {Float|Integer} duration Animation time
+   * @param {String} easing The easing name
+   * @param {Function} callback (Not supported yet)
+   */
+     
   fadeOut: function (duration, easing, callback) {
     return this.animate({ from: 1.0, to: 0.0 }, duration, easing, callback);
   }
