@@ -7,7 +7,6 @@ var durations = {
 /**
  * Parse numerical value
  * "12px" => { value: 12, unit: 'px', ... }
- *
  * 
  * @param {Object} prop The property object
  * @return {Object}
@@ -90,7 +89,7 @@ tire.fn.extend({
     for (p in prop) {
       if (prop.hasOwnProperty(p)) {
         if (!tire.isObj(prop[p])) prop[p] = { value: prop[p], current: 0 };
-        if (this.css(p) !== '' && !prop[p].current) prop[p].current = this.css(p);
+        if ((this.css(p) !== '' && this.css(p) !== 'auto') && !prop[p].current) prop[p].current = this.css(p);
       }
     }
             
