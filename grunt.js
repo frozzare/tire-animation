@@ -4,7 +4,7 @@ module.exports = function(grunt) {
     pkg: '<json:package.json>',
     concat: {
       dist: {
-        src: ['src/header.js', 'src/base.js', 'src/fx/easing.js', 'src/fx/color.js', 'src/fx/animate.js', 'src/footer.js'],
+        src: ['tire/dist/tire.js', 'src/header.js', 'src/base.js', 'src/fx/easing.js', 'src/fx/color.js', 'src/fx/animate.js', 'src/footer.js'],
         dest: 'dist/tire.js'
       }
     },

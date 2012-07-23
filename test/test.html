@@ -31,6 +31,9 @@
   <a href="#" data-pix="0" class="animate2 2d">Animate right (0px)</a>
   <hr />
   <a href="#" class="color">Animate color</a>
+  <hr />
+  <a href="#" class="fadein">Fade in</a>
+  <a href="#" class="fadeout">Fade out</a>
   <script src="../dist/tire.js"></script>
   <script>
     var colors = ['#EEA2AD', '#CDC1C5', '#FF69B4', '#CD69C9', '#3A5FCD', '#BCD2EE', '#33A1C9', '#9ACD32'];
@@ -66,6 +69,12 @@
           'backgroundColor': '#'+Math.floor(Math.random()*16777215).toString(16)
         });
       }, 'slow');
+      $('.fadein').on('click', function () {
+        $('.box').fadeIn('slow');
+      });
+      $('.fadeout').on('click', function () {
+        $('.box').fadeOut('slow');
+      });
     });
   </script>
 </body>

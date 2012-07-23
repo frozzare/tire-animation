@@ -37,16 +37,13 @@ function parsePropertyValue (prop) {
 /**
  * Transform element with easing, current position, duration and property object
  *
- * @param {String} easing
- * @param {Float|Integer} position
- * @param {Integer} duration
+ * @param {Float|Integer} eas The value from easing calculcation
  * @param {Object} prop
  * @return {Float|Integer}
  */
 
-function transform (easing, position, duration, prop) {
+function transform (eas, prop) {
   var val = parsePropertyValue(prop)
-    , eas = easings[easing](duration * position, 0, 1, duration);
   return val.transform(val.current, val.value, eas) + (val.unit || '');
 }
 
@@ -81,12 +78,14 @@ tire.fn.extend({
     duration = tire.isNum(duration) ? duration : durations[duration] || durations.normal;
     
     var self = this
+      , filter = tire('div').css('filter') === ''
       , start = (+new Date())
       , end = start + duration
       , currentTime = start
       , position
       , interval
-      , p;
+      , p
+      , eas;
     
     for (p in prop) {
       if (prop.hasOwnProperty(p)) {
@@ -97,7 +96,14 @@ tire.fn.extend({
             
     var loop = function (time) {
       position = time > end ? 1 : (time - start) / duration;
-      for (p in prop) self.css(p, transform(easing, position, duration, prop[p]));
+      eas = easings[easing](duration * position, 0, 1, duration);
+      for (var p in prop) {
+        v = transform(eas, prop[p]);
+        self.css(p, (p === 'opacity' ? parseFloat(v) : v));
+        if (p === 'opacity' && !filter) {
+          self.css('filter', 'alpha(opacity=' + (numericalTransform(parseFloat(prop[p].current), parseFloat(prop[p].value), eas)*100) + ')');
+        }
+      }
       if (time > end) cancelAnimationFrame(interval);
       else requestAnimationFrame(loop);
     }
@@ -114,7 +120,7 @@ tire.fn.extend({
    */
    
   fadeIn: function (duration, easing, callback) {
-    return this.animate({ from: 0.0, to: 1.0 }, duration, easing, callback);
+    return this.animate({ 'opacity': 1.0 }, duration, easing, callback);
   },
 
   /**
@@ -126,6 +132,6 @@ tire.fn.extend({
    */
      
   fadeOut: function (duration, easing, callback) {
-    return this.animate({ from: 1.0, to: 0.0 }, duration, easing, callback);
+    return this.animate({ 'opacity': 0.0 }, duration, easing, callback);
   }
 });
