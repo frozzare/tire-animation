@@ -29,7 +29,7 @@ function parsePropertyValue (prop) {
   if (isColor(prop.value)) {
     return parseColorValue(prop);
   } else {
-    return !tire.isObj(prop.value) ? parseNumericalValue(prop) : { value: prop.value, unit: '', sta: 0, current: prop.current };
+    return !tire.isObj(prop.value) ? parseNumericalValue(prop) : { value: prop.value, unit: '', current: prop.current };
   }
 }
 
@@ -43,7 +43,7 @@ function parsePropertyValue (prop) {
 
 function transform (eas, prop) {
   var val = parsePropertyValue(prop)
-  return val.transform(val.current, val.value, eas) + (val.unit || '');
+  return val.transform === undefined ? val.transform(val.current, val.value, eas) + (val.unit || '') : 0;
 }
 
 /**
