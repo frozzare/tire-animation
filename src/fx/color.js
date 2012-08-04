@@ -42,12 +42,11 @@ var stringParsers = [{
  */
 
 function Color (value) {
-  var val
-    , i;
+  var val;
   
   value = value.replace(/\s\s*/g, '');
   
-  for (i = 0; i < stringParsers.length; i++) {
+  for (var i = 0; i < stringParsers.length; i++) {
     if ((val = stringParsers[i].re.exec(value)) !== null) {
       val = stringParsers[i].parse(val);
       break;
@@ -84,10 +83,9 @@ function isColor (value) {
 
 function colorTransform (source, target, eas) {
   var res = []
-    , k  
     , tmp;
     
-  for (k in target) {
+  for (var k in target) {
     if (target.hasOwnProperty(k)) {
       tmp = ~~(source[k]+(target[k]-source[k])*eas);
       res.push(tmp < 0 ? 0 : tmp > 255 ? 255 : tmp);
